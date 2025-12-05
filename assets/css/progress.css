@@ -1,0 +1,38 @@
+body{
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 40px;
+}
+
+.title{
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 36px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card{
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #00aaff;
+    box-shadow: 0 0 10px #000;
+}
+
+.date{
+    opacity: 0.6;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.progress-image{
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 10px;
+}

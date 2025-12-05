@@ -4,5 +4,11 @@
         "title":"I started the website",
         "description":"I created the initial structure and project folder.",
         "image":""
+    },
+    {
+        "date": "05-12-2025",
+        "title": "Finished the header animation",
+        "description": "Added moving geometric shapes behind the text.",
+        "image": ""
     }
 ]
