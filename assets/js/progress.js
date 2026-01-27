@@ -1,8 +1,12 @@
+console.log("progress.js loaded");
+
 async function loadProgress() {
     const container = document.getElementById("progress-container");
 
+container.appendChild(test);
+
     try {
-        const res = await fetch("progress.json");
+        const res = await fetch("asset/js/progress.json");
         const data = await res.json();
 
         container.innerHTML = "";
