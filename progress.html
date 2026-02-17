@@ -4,21 +4,34 @@
     <meta charset="UTF-8"/>
     <title>Progress</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="progress.css"/>
+    <link rel="stylesheet" href="assets/css/style.css"/>
+    <link rel="stylesheet" href="assets/css/progress.css"/>
 </head>
 <body>
-    <header>
-        <h1 class="title">Progress Timeline</h1>
-        <div id="progress-container" class="container"></div>
-        <p class="subtitle">My journey, step by step</p>
+    <header class="simple-header">
+        <div class="bg-anim">
+            <div class="shape" style="top: 20%; left: 10%;"></div>
+            <div class="shape" style="top: 60%; left: 70%;"></div>
+            <div class="shape" style="top: 35%; left: 50%; width: 40px; height: 40px;"></div>
+        </div>
+        <h1>Progress Timeline</h1>
+        <p>My journey, step by step</p>
     </header>
-    
+    <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="progress.html">Progress</a>
+            <a href="projects.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
     <main>
         <div id="progress-container" class="container">
-
+            <!-- Content will be loaded here by JavaScript -->
         </div>
     </main>
-    
+    <footer>
+        <p>©2026 Alexandru Seling-Pop</p>
+    </footer>
     <script src="assets/js/progress.js"></script>
 </body>
 </html>

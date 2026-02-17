@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/contact.css">
+</head>
+<body>
+
+    <header class="simple-header">
+        <div class="bg-anim">
+            <div class="shape" style="top: 20%; left: 10%;"></div>
+            <div class="shape" style="top: 60%; left: 70%;"></div>
+            <div class="shape" style="top: 35%; left: 50%; width: 40px; height: 40px;"></div>
+        </div>
+        <h1>Contact</h1>
+        <p>Let’s get in touch</p>
+    </header>
+    <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="progress.html">Progress</a>
+            <a href="projects.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    <section class="contact-section">
+        <div class="contact-card">
+
+            <form id="contactForm" class="contact-form">
+    <label>
+        Name
+        <input type="text" id="name" required>
+    </label>
+
+    <label>
+        Email
+        <input type="email" id="email" required>
+    </label>
+
+    <label>
+        Message
+        <textarea id="message" rows="5" required></textarea>
+    </label>
+
+    <button type="submit">Send message</button>
+
+    <p id="form-status" class="form-status"></p>
+            </form>
+         </div>
+    </section>
+
+    <footer>
+        <p>©2026 Alexandru Seling-Pop</p>
+    </footer>
+    <script src="assets/js/contact.js"></script>
+</body>
+</html>

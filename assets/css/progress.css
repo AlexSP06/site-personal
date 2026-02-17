@@ -1,28 +1,80 @@
-body{
-    background: #0d0d0d;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 40px;
-}
-
-.title{
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 36px;
-}
-
 .container{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding-top: 40px;
+    margin-top: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.month-section {
+    background: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.month-header {
+    background: #222;
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+    user-select: none;
+}
+
+.month-header:hover {
+    background: #333;
+}
+
+.month-header.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.month-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.month-items {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.simple-header{
+    position: relative;
+    overflow: hidden;
+}
+
+.simple-header h1{
+    position: relative;
+    z-index: 2;
+}
+
+.simple-header p{
+    position: relative;
+    z-index: 2;
 }
 
 .card{
-    background: #1a1a1a;
+    background: white;
     padding: 20px;
     border-radius: 12px;
     border-left: 4px solid #00aaff;
     box-shadow: 0 0 10px #000;
+    color: #222;
+    height: auto;
 }
 
 .date{

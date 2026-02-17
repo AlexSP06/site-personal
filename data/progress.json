@@ -3,12 +3,42 @@
         "date":"03-12-2025", 
         "title":"I started the website",
         "description":"I created the initial structure and project folder.",
-        "image":""
+        "image":"assets/img/prog_first_pic.png"
     },
     {
         "date": "05-12-2025",
         "title": "Finished the header animation",
         "description": "Added moving geometric shapes behind the text.",
+        "image": ""
+    },
+    {
+        "date": "17-02-2026",
+        "title": "Fixed navbar and footer consistency",
+        "description": "Made navbar and footer styling consistent across all pages (contact, about, progress, projects).",
+        "image": ""
+    },
+    {
+        "date": "17-02-2026",
+        "title": "Improved header styling",
+        "description": "Made headers bigger (48px) and consistent across all pages with animated backgrounds.",
+        "image": ""
+    },
+    {
+        "date": "17-02-2026",
+        "title": "Created projects page",
+        "description": "Built projects page with two sections: Software Engineering and Media Design with distinct visual styling.",
+        "image": ""
+    },
+    {
+        "date": "17-02-2026",
+        "title": "Fixed progress page",
+        "description": "Updated progress page with proper CSS styling, fixed data loading, and improved card design.",
+        "image": ""
+    },
+    {
+        "date": "17-02-2026",
+        "title": "Refined spacing and layout",
+        "description": "Adjusted card sizes and spacing across all pages for better visual hierarchy and readability.",
         "image": ""
     }
 ]

@@ -4,6 +4,7 @@
         "description":"Portfolio created from scratch with HTML/CSS/JS.",
         "technologies":["HTML", "CSS", "JavaScript"],
         "image":"",
-        "status":"In progress..."
+        "status":"In progress...",
+        "category":"Software Engineering"
     }
 ]
