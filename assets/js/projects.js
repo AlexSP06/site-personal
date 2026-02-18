@@ -5,7 +5,7 @@ async function loadProjects() {
 
     try {
         // Use absolute path from site root for better compatibility
-        const res = await fetch("/data/projects.json");
+        const res = await fetch("/site-personal/data/projects.json");
         
         if (!res.ok) {
             throw new Error(`Failed to load: ${res.status}`);
