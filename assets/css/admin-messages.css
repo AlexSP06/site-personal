@@ -1,0 +1,167 @@
+.messages-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 35px 20px 60px;
+}
+
+.auth-panel {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.auth-panel label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #222;
+}
+
+.auth-row {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-row input {
+    flex: 1;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-card,
+.actions-card,
+.messages-panel {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card,
+.actions-card {
+    padding: 18px;
+}
+
+.stat-card h2,
+.messages-panel h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #222;
+}
+
+.stat-value {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #f39c12;
+}
+
+.actions-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.refresh-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #f39c12;
+    color: #fff;
+    transition: background 0.2s ease;
+}
+
+.refresh-btn:hover {
+    background: #d35400;
+}
+
+.api-status {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.api-status.error {
+    color: #b00020;
+    font-weight: 700;
+}
+
+.messages-panel {
+    padding: 20px;
+}
+
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-card {
+    border: 1px solid #ececec;
+    border-left: 4px solid #f39c12;
+    border-radius: 10px;
+    padding: 14px;
+    background: #fafafa;
+}
+
+.message-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.message-name {
+    margin: 0;
+    font-size: 17px;
+    color: #1f1f1f;
+}
+
+.message-date {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.message-email {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.message-body {
+    margin: 0;
+    color: #444;
+    white-space: pre-wrap;
+}
+
+.empty-messages {
+    margin: 0;
+    color: #666;
+}
+
+@media (max-width: 900px) {
+    .auth-row {
+        flex-direction: column;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+}

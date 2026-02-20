@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-messages.css">
+</head>
+<body>
+    <header class="simple-header">
+        <div class="bg-anim">
+            <div class="shape" style="top: 20%; left: 10%;"></div>
+            <div class="shape" style="top: 60%; left: 70%;"></div>
+            <div class="shape" style="top: 35%; left: 50%; width: 40px; height: 40px;"></div>
+        </div>
+        <h1>Messages Dashboard</h1>
+        <p>Contact messages overview</p>
+    </header>
+
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="progress.html">Progress</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin-messages.html">Messages</a>
+    </nav>
+
+    <main class="messages-main">
+        <section class="auth-panel">
+            <label for="admin-token">Admin token</label>
+            <div class="auth-row">
+                <input id="admin-token" type="password" placeholder="Enter your admin token">
+                <button id="save-token-btn" type="button" class="refresh-btn">Save token</button>
+            </div>
+        </section>
+
+        <section class="stats-row">
+            <article class="stat-card">
+                <h2>Total Messages</h2>
+                <p id="total-messages" class="stat-value">-</p>
+            </article>
+            <article class="stat-card">
+                <h2>Last Message</h2>
+                <p id="last-message-time" class="stat-value">-</p>
+            </article>
+            <article class="actions-card">
+                <button id="refresh-btn" class="refresh-btn">Refresh</button>
+                <p id="api-status" class="api-status"></p>
+            </article>
+        </section>
+
+        <section class="messages-panel">
+            <h2>Latest Messages</h2>
+            <div id="messages-list" class="messages-list"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy;2026 Alexandru Seling-Pop</p>
+    </footer>
+
+    <script src="assets/js/admin-messages.js"></script>
+</body>
+</html>

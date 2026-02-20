@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 const DATA_FILE = path.join(__dirname, "contact-messages.json");
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "";
 
 app.get("/", (_req, res) => {
     res.status(200).json({
@@ -20,6 +21,19 @@ app.get("/", (_req, res) => {
 app.get("/health", (_req, res) => {
     res.status(200).json({ ok: true });
 });
+
+function requireAdmin(req, res, next) {
+    if (!ADMIN_TOKEN) {
+        return res.status(503).json({ error: "Admin token is not configured on server" });
+    }
+
+    const token = req.get("x-admin-token");
+    if (!token || token !== ADMIN_TOKEN) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    next();
+}
 
 async function readStore() {
     try {
@@ -68,7 +82,7 @@ app.post("/contact", async (req, res) => {
     }
 });
 
-app.get("/contact/stats", async (_req, res) => {
+app.get("/contact/stats", requireAdmin, async (_req, res) => {
     try {
         const store = await readStore();
         const count = store.messages.length;
@@ -84,7 +98,7 @@ app.get("/contact/stats", async (_req, res) => {
     }
 });
 
-app.get("/contact/messages", async (_req, res) => {
+app.get("/contact/messages", requireAdmin, async (_req, res) => {
     try {
         const store = await readStore();
         res.status(200).json({
