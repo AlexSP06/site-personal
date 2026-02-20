@@ -204,6 +204,8 @@ footer{
     color: white;
     text-align: center;
     padding: 60px 20px;
+    min-height: 190px;
+    box-sizing: border-box;
 }
 
 .contact-section{

@@ -1,5 +1,47 @@
 console.log("projects.js loaded");
 
+function normalizePath(value) {
+    return String(value || "").trim().replace(/\\/g, "/");
+}
+
+function buildImageCandidates(imagePath) {
+    const raw = normalizePath(imagePath);
+    if (!raw) return [];
+
+    const fileName = raw.split("/").pop();
+    const list = [raw];
+
+    if (fileName) {
+        list.push(`assets/img/${fileName}`);
+    }
+
+    // Unique, URI-safe paths.
+    return [...new Set(list)].map((item) => encodeURI(item));
+}
+
+function createProjectImage(imagePath, altText) {
+    const candidates = buildImageCandidates(imagePath);
+    if (!candidates.length) return null;
+
+    const img = document.createElement("img");
+    img.className = "project-image";
+    img.alt = altText || "Project image";
+    img.loading = "lazy";
+
+    let index = 0;
+    const tryNext = () => {
+        if (index >= candidates.length) {
+            img.remove();
+            return;
+        }
+        img.src = candidates[index++];
+    };
+
+    img.addEventListener("error", tryNext);
+    tryNext();
+    return img;
+}
+
 async function loadProjects() {
     const container = document.getElementById("projects-container");
     if (!container) return;
@@ -57,15 +99,18 @@ async function loadProjects() {
                 const technologies = Array.isArray(project.technologies)
                     ? project.technologies.join(", ")
                     : "N/A";
-                const imageSrc = project.image ? encodeURI(project.image) : "";
 
                 card.innerHTML = `
                     <h3>${project.title}</h3>
                     <p>${project.description}</p>
                     <p><strong>Technologies:</strong> ${technologies}</p>
                     <p><strong>Status:</strong> ${project.status}</p>
-                    ${imageSrc ? `<img src="${imageSrc}" class="project-image" alt="${project.title}" loading="lazy" />` : ""}
                 `;
+
+                const imageEl = createProjectImage(project.image, project.title);
+                if (imageEl) {
+                    card.appendChild(imageEl);
+                }
 
                 cardsContainer.appendChild(card);
             });
