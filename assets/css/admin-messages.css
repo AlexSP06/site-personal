@@ -90,6 +90,14 @@
     background: #d35400;
 }
 
+.logout-btn {
+    background: #555;
+}
+
+.logout-btn:hover {
+    background: #333;
+}
+
 .api-status {
     margin: 0;
     font-size: 13px;

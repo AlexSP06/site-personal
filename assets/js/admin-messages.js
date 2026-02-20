@@ -1,21 +1,13 @@
 const API_BASE = "http://localhost:3000";
-const TOKEN_STORAGE_KEY = "messages_admin_token";
 
 const totalMessagesEl = document.getElementById("total-messages");
 const lastMessageTimeEl = document.getElementById("last-message-time");
 const messagesListEl = document.getElementById("messages-list");
 const refreshBtn = document.getElementById("refresh-btn");
 const apiStatusEl = document.getElementById("api-status");
-const adminTokenInput = document.getElementById("admin-token");
-const saveTokenBtn = document.getElementById("save-token-btn");
-
-function getSavedToken() {
-    return localStorage.getItem(TOKEN_STORAGE_KEY) || "";
-}
-
-function saveToken(value) {
-    localStorage.setItem(TOKEN_STORAGE_KEY, value.trim());
-}
+const adminPasswordInput = document.getElementById("admin-password");
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
 
 function formatDate(value) {
     if (!value) return "-";
@@ -52,29 +44,99 @@ function renderMessages(messages) {
     });
 }
 
-async function loadDashboard() {
-    setApiStatus("Loading...");
-    refreshBtn.disabled = true;
-    const token = getSavedToken();
+async function apiFetch(path, options = {}) {
+    return fetch(`${API_BASE}${path}`, {
+        credentials: "include",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {})
+        }
+    });
+}
 
-    if (!token) {
-        totalMessagesEl.textContent = "-";
-        lastMessageTimeEl.textContent = "-";
-        renderMessages([]);
-        setApiStatus("Set admin token first.", true);
-        refreshBtn.disabled = false;
+function resetDashboard() {
+    totalMessagesEl.textContent = "-";
+    lastMessageTimeEl.textContent = "-";
+    renderMessages([]);
+}
+
+async function checkSession() {
+    try {
+        const res = await apiFetch("/admin/session", { method: "GET" });
+        return { ok: res.ok, status: res.status };
+    } catch (_err) {
+        return { ok: false, status: 0 };
+    }
+}
+
+async function login() {
+    const password = adminPasswordInput.value.trim();
+    if (!password) {
+        setApiStatus("Enter password first.", true);
         return;
     }
 
+    loginBtn.disabled = true;
     try {
-        const headers = { "x-admin-token": token };
+        const res = await apiFetch("/admin/login", {
+            method: "POST",
+            body: JSON.stringify({ password })
+        });
+
+        if (!res.ok) {
+            if (res.status === 429) {
+                setApiStatus("Too many attempts. Try again later.", true);
+            } else {
+                setApiStatus("Invalid password.", true);
+            }
+            return;
+        }
+
+        adminPasswordInput.value = "";
+        setApiStatus("Authenticated.");
+        await loadDashboard();
+    } catch (_err) {
+        setApiStatus("Cannot connect to API.", true);
+    } finally {
+        loginBtn.disabled = false;
+    }
+}
+
+async function logout() {
+    try {
+        await apiFetch("/admin/logout", { method: "POST" });
+    } catch (_err) {
+        // Ignore network errors here.
+    }
+
+    resetDashboard();
+    setApiStatus("Logged out.");
+}
+
+async function loadDashboard() {
+    setApiStatus("Loading...");
+    refreshBtn.disabled = true;
+
+    try {
+        const session = await checkSession();
+        if (!session.ok) {
+            resetDashboard();
+            if (session.status === 503) {
+                setApiStatus("Server not configured. Start backend with ADMIN_PASSWORD.", true);
+            } else {
+                setApiStatus("Login required.", true);
+            }
+            return;
+        }
+
         const [statsRes, messagesRes] = await Promise.all([
-            fetch(`${API_BASE}/contact/stats`, { headers }),
-            fetch(`${API_BASE}/contact/messages`, { headers })
+            apiFetch("/contact/stats", { method: "GET" }),
+            apiFetch("/contact/messages", { method: "GET" })
         ]);
 
         if (!statsRes.ok || !messagesRes.ok) {
-            throw new Error(statsRes.status === 401 || messagesRes.status === 401 ? "UNAUTHORIZED" : "API_FAILED");
+            throw new Error("API request failed");
         }
 
         const stats = await statsRes.json();
@@ -83,31 +145,23 @@ async function loadDashboard() {
         totalMessagesEl.textContent = String(stats.count ?? 0);
         lastMessageTimeEl.textContent = formatDate(stats.lastMessageAt);
         renderMessages(payload.messages);
-        setApiStatus("Connected to API");
-    } catch (err) {
-        totalMessagesEl.textContent = "-";
-        lastMessageTimeEl.textContent = "-";
-        renderMessages([]);
-        if (err.message === "UNAUTHORIZED") {
-            setApiStatus("Invalid token.", true);
-        } else {
-            setApiStatus("Cannot connect to API. Start backend on port 3000.", true);
-        }
+        setApiStatus("Connected.");
+    } catch (_err) {
+        resetDashboard();
+        setApiStatus("Cannot connect to API. Start backend on port 3000.", true);
     } finally {
         refreshBtn.disabled = false;
     }
 }
 
-function initTokenUI() {
-    adminTokenInput.value = getSavedToken();
-    saveTokenBtn.addEventListener("click", () => {
-        saveToken(adminTokenInput.value);
-        setApiStatus("Token saved locally.");
-    });
-}
-
 refreshBtn.addEventListener("click", loadDashboard);
-document.addEventListener("DOMContentLoaded", () => {
-    initTokenUI();
-    loadDashboard();
+loginBtn.addEventListener("click", login);
+logoutBtn.addEventListener("click", logout);
+adminPasswordInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+    }
 });
+
+document.addEventListener("DOMContentLoaded", loadDashboard);
