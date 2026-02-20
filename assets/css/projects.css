@@ -59,9 +59,7 @@
     background: #111;
     color: white;
     text-align: center;
-    padding: 60px 20px 70px;
-    overflow: hidden;
-    z-index: 1;
+    padding: 60px 20px;
 }
 
 .simple-header .bg-anim{
@@ -97,12 +95,6 @@
     opacity: 0.9;
     position: relative;
     z-index: 2;
-}
-
-.navbar {
-    position: relative;
-    z-index: 3;
-    margin-top: 0;
 }
 
 @keyframes blink {
@@ -154,6 +146,15 @@
 
 .project-card strong {
     color: #333;
+}
+
+.project-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 12px;
+    border-radius: 8px;
 }
 
 .project-link {
