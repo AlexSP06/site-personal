@@ -57,13 +57,14 @@ async function loadProjects() {
                 const technologies = Array.isArray(project.technologies)
                     ? project.technologies.join(", ")
                     : "N/A";
+                const imageSrc = project.image ? encodeURI(project.image) : "";
 
                 card.innerHTML = `
                     <h3>${project.title}</h3>
                     <p>${project.description}</p>
                     <p><strong>Technologies:</strong> ${technologies}</p>
                     <p><strong>Status:</strong> ${project.status}</p>
-                    ${project.image ? `<img src="${project.image}" class="project-image" />` : ""}
+                    ${imageSrc ? `<img src="${imageSrc}" class="project-image" alt="${project.title}" loading="lazy" />` : ""}
                 `;
 
                 cardsContainer.appendChild(card);
