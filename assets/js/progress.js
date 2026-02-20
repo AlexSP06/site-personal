@@ -4,8 +4,8 @@ async function loadProgress() {
     const container = document.getElementById("progress-container");
 
     try {
-        // Use absolute path from site root for better compatibility
-        const res = await fetch("/data/progress.json");
+        // Fixed path: go up one level then into data folder
+        const res = await fetch("/site-personal/data/progress.json");
         
         if (!res.ok) {
             throw new Error(`Failed to load: ${res.status}`);
