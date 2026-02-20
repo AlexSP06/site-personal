@@ -2,15 +2,27 @@ console.log("projects.js loaded");
 
 async function loadProjects() {
     const container = document.getElementById("projects-container");
+    if (!container) return;
 
     try {
-        // Use absolute path from site root for better compatibility
-        const res = await fetch("/site-personal/data/projects.json");
-        
-        if (!res.ok) {
-            throw new Error(`Failed to load: ${res.status}`);
+        // Prefer relative path so it works regardless of deployment root.
+        const candidates = ["./data/projects.json", "data/projects.json", "/data/projects.json"];
+        let res = null;
+
+        for (const url of candidates) {
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    res = response;
+                    break;
+                }
+            } catch (_) {
+                // Try next candidate path.
+            }
         }
-        
+
+        if (!res) throw new Error("Failed to load projects.json from any known path.");
+
         const data = await res.json();
         console.log("Loaded projects:", data);
 
@@ -42,7 +54,9 @@ async function loadProjects() {
                 const card = document.createElement("div");
                 card.classList.add("project-card");
 
-                const technologies = project.technologies.join(", ");
+                const technologies = Array.isArray(project.technologies)
+                    ? project.technologies.join(", ")
+                    : "N/A";
 
                 card.innerHTML = `
                     <h3>${project.title}</h3>
