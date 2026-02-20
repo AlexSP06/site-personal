@@ -200,12 +200,36 @@ footer{
 }
 
 .simple-header{
+    position: relative;
+    overflow: hidden;
     background: #111;
     color: white;
     text-align: center;
     padding: 60px 20px;
     min-height: 190px;
     box-sizing: border-box;
+}
+
+.simple-header .bg-anim{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.simple-header h1,
+.simple-header p{
+    position: relative;
+    z-index: 2;
+}
+
+.navbar{
+    position: relative;
+    z-index: 2;
 }
 
 .contact-section{
