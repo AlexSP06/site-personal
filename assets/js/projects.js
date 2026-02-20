@@ -1,4 +1,5 @@
-console.log("projects.js loaded");
+const PROJECTS_DATA_PATHS = ["./data/projects.json", "data/projects.json", "/data/projects.json"];
+const PROJECTS_ERROR_HTML = "<p class='error'>Could not load projects data.</p>";
 
 function normalizePath(value) {
     return String(value || "").trim().replace(/\\/g, "/");
@@ -47,81 +48,81 @@ async function loadProjects() {
     if (!container) return;
 
     try {
-        // Prefer relative path so it works regardless of deployment root.
-        const candidates = ["./data/projects.json", "data/projects.json", "/data/projects.json"];
-        let res = null;
-
-        for (const url of candidates) {
-            try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    res = response;
-                    break;
-                }
-            } catch (_) {
-                // Try next candidate path.
-            }
-        }
-
+        const res = await fetchProjectsData();
         if (!res) throw new Error("Failed to load projects.json from any known path.");
 
         const data = await res.json();
-        console.log("Loaded projects:", data);
-
         container.innerHTML = "";
-
-        // Group projects by category
-        const grouped = {};
-        data.forEach(project => {
-            const category = project.category || "Other";
-            if (!grouped[category]) {
-                grouped[category] = [];
-            }
-            grouped[category].push(project);
-        });
-
-        // Create sections for each category
-        Object.keys(grouped).forEach(category => {
-            const section = document.createElement("section");
-            section.classList.add("projects-section");
-            
-            const heading = document.createElement("h2");
-            heading.textContent = category;
-            section.appendChild(heading);
-            
-            const cardsContainer = document.createElement("div");
-            cardsContainer.classList.add("projects-cards");
-            
-            grouped[category].forEach(project => {
-                const card = document.createElement("div");
-                card.classList.add("project-card");
-
-                const technologies = Array.isArray(project.technologies)
-                    ? project.technologies.join(", ")
-                    : "N/A";
-
-                card.innerHTML = `
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <p><strong>Technologies:</strong> ${technologies}</p>
-                    <p><strong>Status:</strong> ${project.status}</p>
-                `;
-
-                const imageEl = createProjectImage(project.image, project.title);
-                if (imageEl) {
-                    card.appendChild(imageEl);
-                }
-
-                cardsContainer.appendChild(card);
-            });
-            
-            section.appendChild(cardsContainer);
-            container.appendChild(section);
-        });
-        
+        renderProjectSections(container, data);
     } catch (err) {
-        container.innerHTML = "<p class='error'>Could not load projects data.</p>";
+        container.innerHTML = PROJECTS_ERROR_HTML;
         console.error("Error loading projects:", err);
+    }
+}
+
+async function fetchProjectsData() {
+    for (const url of PROJECTS_DATA_PATHS) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) return response;
+        } catch (_) {
+            // Try the next candidate path.
+        }
+    }
+    return null;
+}
+
+function groupProjectsByCategory(projects) {
+    const grouped = {};
+    for (const project of projects) {
+        const category = project.category || "Other";
+        if (!grouped[category]) grouped[category] = [];
+        grouped[category].push(project);
+    }
+    return grouped;
+}
+
+function createProjectCard(project) {
+    const card = document.createElement("div");
+    card.classList.add("project-card");
+
+    const technologies = Array.isArray(project.technologies)
+        ? project.technologies.join(", ")
+        : "N/A";
+
+    card.innerHTML = `
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <p><strong>Technologies:</strong> ${technologies}</p>
+        <p><strong>Status:</strong> ${project.status}</p>
+    `;
+
+    const imageEl = createProjectImage(project.image, project.title);
+    if (imageEl) card.appendChild(imageEl);
+
+    return card;
+}
+
+function renderProjectSections(container, projects) {
+    const grouped = groupProjectsByCategory(projects);
+
+    for (const category of Object.keys(grouped)) {
+        const section = document.createElement("section");
+        section.classList.add("projects-section");
+
+        const heading = document.createElement("h2");
+        heading.textContent = category;
+        section.appendChild(heading);
+
+        const cardsContainer = document.createElement("div");
+        cardsContainer.classList.add("projects-cards");
+
+        for (const project of grouped[category]) {
+            cardsContainer.appendChild(createProjectCard(project));
+        }
+
+        section.appendChild(cardsContainer);
+        container.appendChild(section);
     }
 }
 
